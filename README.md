@@ -1,0 +1,1 @@
+A few fancy delegates that I commonly use.
