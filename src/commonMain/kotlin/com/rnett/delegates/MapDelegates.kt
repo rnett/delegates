@@ -46,11 +46,8 @@ data class OptionalDelegate<K, V>(val map: MutableMap<K, V>, val key: K): ReadWr
 fun <K, V> MutableMap<K, V>.optionalDelegate(key: K) = OptionalDelegate(this, key)
 fun <K, V> Map<K, V>.optionalDelegate(key: K) = FunctionDelegate { get(key) }
 
-data class StringOptionalDelegate<V>(val map: MutableMap<String, V>): ReadWriteProperty<Any?, V?> {
-    override fun getValue(thisRef: Any?, property: KProperty<*>): V? {
-        return map[property.name]
-    }
-
+class StringOptionalDelegate<V>(override val map: MutableMap<String, V>) : StringReadOnlyOptionalDelegate<V>(map),
+    ReadWriteProperty<Any?, V?> {
     override fun setValue(thisRef: Any?, property: KProperty<*>, value: V?) {
         try{
             map[property.name] = value as V
@@ -61,7 +58,7 @@ data class StringOptionalDelegate<V>(val map: MutableMap<String, V>): ReadWriteP
     }
 }
 
-data class StringReadOnlyOptionalDelegate<V>(val map: Map<String, V>): ReadOnlyProperty<Any?, V?> {
+open class StringReadOnlyOptionalDelegate<V>(open val map: Map<String, V>) : ReadOnlyProperty<Any?, V?> {
     override fun getValue(thisRef: Any?, property: KProperty<*>): V? {
         return map[property.name]
     }
@@ -69,3 +66,37 @@ data class StringReadOnlyOptionalDelegate<V>(val map: Map<String, V>): ReadOnlyP
 
 fun <V> MutableMap<String, V>.optionalDelegate() = StringOptionalDelegate(this)
 fun <V> Map<String, V>.optionalDelegate() = StringReadOnlyOptionalDelegate(this)
+
+open class RORequiredDelegate<K, out V>(open val map: Map<K, V>, val key: K) : ReadOnlyProperty<Any?, V> {
+    override fun getValue(thisRef: Any?, property: KProperty<*>): V {
+        return map.getValue(key)
+    }
+
+}
+
+class RWRequiredDelegate<K, V>(override val map: MutableMap<K, V>, key: K) : RORequiredDelegate<K, V>(map, key),
+    ReadWriteProperty<Any?, V> {
+    override fun setValue(thisRef: Any?, property: KProperty<*>, value: V) {
+        map[key] = value
+    }
+}
+
+fun <K, V> MutableMap<K, V>.delegate(key: K) = RWRequiredDelegate(this, key)
+fun <K, V> Map<K, V>.delegate(key: K) = RORequiredDelegate(this, key)
+
+open class ROStringRequiredDelegate<out V>(open val map: Map<String, V>) : ReadOnlyProperty<Any?, V> {
+    override fun getValue(thisRef: Any?, property: KProperty<*>): V {
+        return map.getValue(property.name)
+    }
+
+}
+
+class RWStringRequiredDelegate<V>(override val map: MutableMap<String, V>) : ROStringRequiredDelegate<V>(map),
+    ReadWriteProperty<Any?, V> {
+    override fun setValue(thisRef: Any?, property: KProperty<*>, value: V) {
+        map[property.name] = value
+    }
+}
+
+fun <V> MutableMap<String, V>.delegate() = RWStringRequiredDelegate(this)
+fun <V> Map<String, V>.delegate() = ROStringRequiredDelegate(this)
