@@ -1,5 +1,7 @@
 package com.rnett.delegates
 
+import com.rnett.delegates.legacy.after
+import com.rnett.delegates.legacy.asReadOnly
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 import kotlin.test.Test

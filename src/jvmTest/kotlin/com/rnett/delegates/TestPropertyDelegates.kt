@@ -11,7 +11,7 @@ class TestPropertyDelegates {
     fun testVarWrapper() {
         val test = Wrapper(4)
 
-        var testDelegate by test::value
+        var testDelegate by test::value.mutableDelegate()
 
         assertEquals(4, testDelegate, "Read")
 
@@ -29,7 +29,7 @@ class TestPropertyDelegates {
     fun testValWrapper() {
         val test = Wrapper2(5)
 
-        val testDelegate by test::value
+        val testDelegate by test::value.delegate()
 
         assertEquals(5, testDelegate, "Read")
     }
@@ -38,7 +38,7 @@ class TestPropertyDelegates {
     fun testValVarWrapper() {
         val test = Wrapper(10)
 
-        val testDelegate by test::value
+        val testDelegate by test::value.delegate()
 
         assertEquals(10, testDelegate, "Read")
     }

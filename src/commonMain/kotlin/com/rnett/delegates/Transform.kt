@@ -1,36 +1,18 @@
 package com.rnett.delegates
 
-import kotlin.properties.ReadOnlyProperty
-import kotlin.properties.ReadWriteProperty
-import kotlin.reflect.KProperty
-
-data class ReadOnlyTransform<in R, T, out S>(val base: ReadOnlyProperty<R, T>, val transform: (T) -> S): ReadOnlyProperty<R, S>{
-    override fun getValue(thisRef: R, property: KProperty<*>): S {
-        return transform(base.getValue(thisRef, property))
+inline fun <T, S> ReadProvider<T>.after(crossinline transform: (T) -> S) = object : WatchableBase<S>() {
+    override fun getValue(): S {
+        return transform(this@after.getValue())
     }
 }
 
-fun <R, T, S> ReadOnlyProperty<R, T>.after(transform: (T) -> S) = ReadOnlyTransform(this, transform)
-
-data class ReadWriteTransform<in R, T, S>(val base: ReadWriteProperty<R, T>, val getTransform: (T) -> S, val setTransform: (S) -> T): ReadWriteProperty<R, S> {
-    override fun getValue(thisRef: R, property: KProperty<*>): S {
-        return getTransform(base.getValue(thisRef, property))
+inline fun <T, S> ReadWriteProvider<T>.after(crossinline getTransform: (T) -> S, crossinline setTransform: (S) -> T) =
+    object : MutableWatchableBase<S>() {
+        override fun justSetValue(value: S) {
+            this@after.setValue(setTransform(value))
     }
 
-    override fun setValue(thisRef: R, property: KProperty<*>, value: S) {
-        base.setValue(thisRef, property, setTransform(value))
-    }
-}
-
-fun <R, T, S> ReadWriteProperty<R, T>.after(getTransform: (T) -> S, setTransform: (S) -> T) = ReadWriteTransform(this, getTransform, setTransform)
-
-data class ToReadOnlyDelegate<in R, T>(val base: ReadWriteProperty<R, T>): ReadOnlyProperty<R, T> {
-    override fun getValue(thisRef: R, property: KProperty<*>): T {
-        return base.getValue(thisRef, property)
+        override fun getValue(): S {
+            return getTransform(this@after.getValue())
     }
 }
-
-fun <R, T> ReadWriteProperty<R, T>.asReadOnly() = ToReadOnlyDelegate(this)
-
-fun <R, T, S> ReadWriteProperty<R, T>.after(transform: (T) -> S) = ReadOnlyTransform(this.asReadOnly(), transform)
-

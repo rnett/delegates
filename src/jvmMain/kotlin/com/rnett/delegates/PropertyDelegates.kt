@@ -1,26 +1,25 @@
 package com.rnett.delegates
 
-import kotlin.properties.ReadOnlyProperty
-import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KMutableProperty
 import kotlin.reflect.KProperty
 
-data class ValWrapper<T>(val property: KProperty<T>): ReadOnlyProperty<Any?, T>{
-    override fun getValue(thisRef: Any?, property: KProperty<*>): T {
+data class ValWrapper<T>(val property: KProperty<T>) : WatchableBase<T>(), ReadProvider<T> {
+    override fun getValue(): T {
         return this.property.getter.call()
     }
 }
 
-operator fun <T> KProperty<T>.provideDelegate(thisRef: Any?, prop: KProperty<*>)  = ValWrapper(this)
+fun <T> KProperty<T>.delegate() = ValWrapper(this)
 
-data class VarWrapper<T>(val property: KMutableProperty<T>): ReadWriteProperty<Any?, T>{
-    override fun getValue(thisRef: Any?, property: KProperty<*>): T {
-        return this.property.getter.call()
-    }
+data class VarWrapper<T>(val property: KMutableProperty<T>) : MutableWatchableBase<T>(), ReadWriteProvider<T> {
 
-    override fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {
+    override fun justSetValue(value: T) {
         this.property.setter.call(value)
     }
+
+    override fun getValue(): T {
+        return this.property.getter.call()
+    }
 }
 
-operator fun <T> KMutableProperty<T>.provideDelegate(thisRef: Any?, prop: KProperty<*>)  = VarWrapper(this)
+fun <T> KMutableProperty<T>.mutableDelegate() = VarWrapper(this)
