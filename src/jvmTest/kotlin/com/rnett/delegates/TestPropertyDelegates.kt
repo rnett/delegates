@@ -1,16 +1,14 @@
 package com.rnett.delegates
 
 import org.junit.Test
-import kotlin.properties.ReadOnlyProperty
-import kotlin.reflect.KProperty
 import kotlin.test.assertEquals
 
-class TestWrappers {
+class TestPropertyDelegates {
 
     data class Wrapper(var value: Int)
 
     @Test
-    fun testVarWrapper(){
+    fun testVarWrapper() {
         val test = Wrapper(4)
 
         var testDelegate by test::value
@@ -28,7 +26,7 @@ class TestWrappers {
     data class Wrapper2(val value: Int)
 
     @Test
-    fun testValWrapper(){
+    fun testValWrapper() {
         val test = Wrapper2(5)
 
         val testDelegate by test::value
@@ -37,12 +35,11 @@ class TestWrappers {
     }
 
     @Test
-    fun testValVarWrapper(){
+    fun testValVarWrapper() {
         val test = Wrapper(10)
 
         val testDelegate by test::value
 
         assertEquals(10, testDelegate, "Read")
     }
-
 }
