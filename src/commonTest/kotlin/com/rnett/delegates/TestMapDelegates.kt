@@ -38,8 +38,8 @@ class TestMapDelegates {
     fun testOptionalDelegates(){
         val map = mutableMapOf<String, Int>("a" to 3)
 
-        var a by map.optionalDelegate()
-        var b by map.optionalDelegate()
+        var a by map.optionalStringRWDelegate()
+        var b by map.optionalStringRWDelegate()
 
         assertEquals(3, a)
         assertEquals(null, b)
