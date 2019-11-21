@@ -70,7 +70,7 @@ fun <V> Map<String, V>.optionalStringDelegate() = StringReadOnlyOptionalDelegate
 fun <V> MutableMap<String, V>.optionalStringRWDelegate(key: String?): ReadWriteProperty<Any?, V?> =
     if (key == null) optionalStringRWDelegate() else optionalStringRWDelegate(key)
 
-fun <V> Map<String, V>.optionalStringRWDelegate(key: String?): ReadOnlyProperty<Any?, V?> =
+fun <V> Map<String, V>.optionalStringDelegate(key: String?): ReadOnlyProperty<Any?, V?> =
     if (key == null) optionalStringDelegate() else optionalDelegate(key)
 
 open class RORequiredDelegate<K, out V>(open val map: Map<K, V>, val key: K) : ReadOnlyProperty<Any?, V> {
@@ -105,10 +105,10 @@ class RWStringRequiredDelegate<V>(override val map: MutableMap<String, V>) : ROS
 }
 
 fun <V> MutableMap<String, V>.stringRWDelegate() = RWStringRequiredDelegate(this)
-fun <V> Map<String, V>.stringRWDelegate() = ROStringRequiredDelegate(this)
+fun <V> Map<String, V>.stringDelegate() = ROStringRequiredDelegate(this)
 
 fun <V> MutableMap<String, V>.stringRWDelegate(key: String?): ReadWriteProperty<Any?, V> =
     if (key == null) stringRWDelegate() else rwDelegate(key)
 
-fun <V> Map<String, V>.stringRWDelegate(key: String?): ReadOnlyProperty<Any?, V> =
-    if (key == null) stringRWDelegate() else delegate(key)
+fun <V> Map<String, V>.stringDelegate(key: String?): ReadOnlyProperty<Any?, V> =
+    if (key == null) stringDelegate() else delegate(key)
