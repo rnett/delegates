@@ -17,6 +17,10 @@ kotlin {
 
     }
 
+    js() {
+
+    }
+
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -42,6 +46,19 @@ kotlin {
                 implementation(kotlin("test-junit"))
             }
         }
+
+        val jsMain by getting {
+            dependencies {
+                implementation(kotlin("stdlib-js"))
+            }
+        }
+
+        val jsTest by getting {
+            dependencies {
+                implementation(kotlin("test-js"))
+            }
+        }
+
         all {
             languageSettings.enableLanguageFeature("InlineClasses")
         }
