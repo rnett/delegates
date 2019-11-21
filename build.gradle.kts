@@ -53,9 +53,9 @@ publishing {
     publications{
         create("default", MavenPublication::class) {
             from(components["kotlin"])
-            group = "com.rnett.kframe"
-            artifactId = "kframe"
-            version = "1.0.0"
+            group = project.group
+            artifactId = project.name
+            version = project.version.toString()
         }
     }
 }
