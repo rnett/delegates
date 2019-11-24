@@ -1,6 +1,6 @@
 package com.rnett.delegates
 
-open class Wrapper<T>(open val wrappedValue: T) : WatchableBase<T>() {
+open class Wrapper<T>(open val wrappedValue: T) : ReadProvider<T> {
     override fun getValue(): T {
         return wrappedValue
     }
@@ -8,10 +8,9 @@ open class Wrapper<T>(open val wrappedValue: T) : WatchableBase<T>() {
 
 fun <T> wrapped(value: T) = Wrapper(value)
 
-class MutableWrapper<T>(override var wrappedValue: T) : Wrapper<T>(wrappedValue), MutableWatchable<T> {
+class MutableWrapper<T>(override var wrappedValue: T) : Wrapper<T>(wrappedValue), ReadWriteProvider<T> {
     override fun setValue(value: T) {
         this.wrappedValue = value
-        refresh(value)
     }
 }
 

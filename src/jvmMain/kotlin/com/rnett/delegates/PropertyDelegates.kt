@@ -3,7 +3,7 @@ package com.rnett.delegates
 import kotlin.reflect.KMutableProperty
 import kotlin.reflect.KProperty
 
-data class ValWrapper<T>(val property: KProperty<T>) : WatchableBase<T>(), ReadProvider<T> {
+data class ValWrapper<T>(val property: KProperty<T>) : ReadProvider<T> {
     override fun getValue(): T {
         return this.property.getter.call()
     }
@@ -11,9 +11,9 @@ data class ValWrapper<T>(val property: KProperty<T>) : WatchableBase<T>(), ReadP
 
 fun <T> KProperty<T>.delegate() = ValWrapper(this)
 
-data class VarWrapper<T>(val property: KMutableProperty<T>) : MutableWatchableBase<T>(), ReadWriteProvider<T> {
+data class VarWrapper<T>(val property: KMutableProperty<T>) : ReadWriteProvider<T> {
 
-    override fun justSetValue(value: T) {
+    override fun setValue(value: T) {
         this.property.setter.call(value)
     }
 

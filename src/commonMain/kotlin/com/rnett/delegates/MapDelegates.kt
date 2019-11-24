@@ -1,12 +1,12 @@
 package com.rnett.delegates
 
 data class GetOrPutDelegate<K, T>(val key: K, val map: MutableMap<K, T>, val initialValue: () -> T) :
-    MutableWatchableBase<T>() {
+        ReadWriteProvider<T> {
     override fun getValue(): T {
         return map.getOrPut(key, initialValue)
     }
 
-    override fun justSetValue(value: T) {
+    override fun setValue(value: T) {
         map[key] = value
     }
 }
@@ -25,12 +25,12 @@ fun <K, V> MutableMap<K, V>.getOrPutDelegate(key: K, initialValue: () -> V) = Ge
 //
 //fun <V> MutableMap<String, V>.getOrPutDelegate(initialValue: () -> V) = StringGetOrPutDelegate(this, initialValue)
 
-data class OptionalDelegate<K, V>(val map: MutableMap<K, V>, val key: K) : MutableWatchableBase<V?>() {
+data class OptionalDelegate<K, V>(val map: MutableMap<K, V>, val key: K) : ReadWriteProvider<V?> {
     override fun getValue(): V? {
         return map[key]
     }
 
-    override fun justSetValue(value: V?) {
+    override fun setValue(value: V?) {
         try{
             map[key] = value as V
         } catch (e: ClassCastException){
@@ -70,7 +70,7 @@ fun <K, V> Map<K, V>.optionalDelegate(key: K) = functionDelegate { get(key) }
 //fun <V> Map<String, V>.optionalStringDelegate(key: String?): ReadOnlyProperty<Any?, V?> =
 //    if (key == null) optionalStringDelegate() else optionalDelegate(key)
 
-open class RORequiredDelegate<K, V>(open val map: Map<K, V>, val key: K) : WatchableBase<V>() {
+open class RORequiredDelegate<K, V>(open val map: Map<K, V>, val key: K) : ReadProvider<V> {
     override fun getValue(): V {
         return map.getValue(key)
     }
@@ -78,10 +78,9 @@ open class RORequiredDelegate<K, V>(open val map: Map<K, V>, val key: K) : Watch
 }
 
 class RWRequiredDelegate<K, V>(override val map: MutableMap<K, V>, key: K) : RORequiredDelegate<K, V>(map, key),
-    MutableWatchable<V> {
+        ReadWriteProvider<V> {
     override fun setValue(value: V) {
         map[key] = value
-        refresh(value)
     }
 }
 
