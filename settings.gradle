@@ -1,2 +1,3 @@
 rootProject.name = 'delegates'
+enableFeaturePreview('GRADLE_METADATA')
 
