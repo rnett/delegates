@@ -4,9 +4,6 @@ plugins {
     `maven-publish`
 }
 
-group = "com.rnett.delegates"
-version = "1.0-TEST"
-
 repositories {
     mavenCentral()
     jcenter()
@@ -64,21 +61,5 @@ kotlin {
             languageSettings.enableLanguageFeature("InlineClasses")
         }
 
-    }
-}
-
-//publishing.publications.all {
-//    println("Version: ${project.version}, $version")
-//    version = project.version.toString()
-//}
-
-publishing {
-    publications {
-        create("default", MavenPublication::class) {
-            from(components["kotlin"])
-            group = project.group
-            artifactId = project.name
-//            version = project.version.toString()
-        }
     }
 }

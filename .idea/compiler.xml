@@ -2,6 +2,10 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
+      <module name="'com.rnett.delegates'.delegates.jvmMain" target="1.6" />
+      <module name="'com.rnett.delegates'.delegates.jvmTest" target="1.6" />
+      <module name="_com.rnett.delegates_.delegates.jvmMain" target="1.6" />
+      <module name="_com.rnett.delegates_.delegates.jvmTest" target="1.6" />
       <module name="com.rnett.kframe.delegates.jvmMain" target="1.6" />
       <module name="com.rnett.kframe.delegates.jvmTest" target="1.6" />
       <module name="delegates.jvmMain" target="1.6" />
