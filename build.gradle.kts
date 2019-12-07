@@ -73,7 +73,6 @@ publishing {
             from(components["kotlin"])
             group = project.group
             artifactId = project.name
-            version = "1.0.0"
 //            version = project.version.toString()
         }
     }
