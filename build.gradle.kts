@@ -4,7 +4,7 @@ plugins {
     `maven-publish`
 }
 
-//group = "com.rnett.delegates"
+group = "com.rnett.delegates"
 //version = "1.0-SNAPSHOT"
 
 repositories {

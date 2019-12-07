@@ -2,7 +2,7 @@
   <artifact type="jar" name="delegates-jvm">
     <output-path>C:\Users\jimne\Google Drive\My Stuff\delegates\build\libs</output-path>
     <root id="archive" name="delegates-jvm.jar">
-      <element id="module-output" name="delegates.jvmMain" />
+      <element id="module-output" name="com.rnett.delegates.delegates.jvmMain" />
     </root>
   </artifact>
 </component>
