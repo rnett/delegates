@@ -68,7 +68,7 @@ kotlin {
 }
 
 publishing.publications.all {
-    version = "1.9.9"
+    version = project.version.toString()
 }
 
 //publishing {
