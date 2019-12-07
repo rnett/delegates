@@ -6,23 +6,21 @@ plugins {
     `maven-publish`
 }
 
-fun getNewestCommit(gitURL: String, default: String = ""): String {
+fun getNewestCommit(gitURL: String): String {
     try {
 
-        return URL("https://api.github.com/repos/$gitURL/commits").readText()
+        return URL("https://api.github.com/repos/$gitURL/commits?client_id=f98835efcec776b42a9c&client_secret=a73806fc946ced540c208be4320839ecb61c65d5").readText()
             .substringAfter("\"sha\":\"").substringBefore("\",").substring(0, 10)
     } catch (e: java.lang.Exception) {
-        return default
+        throw RuntimeException("Can't get the latest commit", e)
     }
 }
 
 group = "com.rnett.delegates"
 version = "1.0-SNAPSHOT"
+val do_jitpack_commit_fix = true
 
-val jitpack_version = getNewestCommit(
-    "rnett/" + project.group.toString().split(".").last(),
-    project.version.toString()
-)
+val latest_commit_version = getNewestCommit("rnett/" + project.group.toString().split(".").last())
 
 repositories {
     mavenCentral()
@@ -84,20 +82,22 @@ kotlin {
     }
 }
 
-publishing.publications.all {
-    if (this is MavenPublication) {
-        if ("jitpack" in projectDir.path)
-            this.version = jitpack_version
+val do_jitpack_fix = do_jitpack_commit_fix// && "jitpack" in projectDir.path
+
+if (do_jitpack_fix) {
+    tasks["publishToMavenLocal"].doLast {
+        val artifacts = publishing.publications.filterIsInstance<MavenPublication>().map { it.artifactId }
+
+        val dir: File = File(publishing.repositories.mavenLocal().url)
+            .resolve(project.group.toString().replace('.', '/'))
+
+        dir.listFiles { it -> it.name in artifacts }
+            .flatMap { it.listFiles { it -> it.isDirectory }.toList() }
+            .flatMap { it.listFiles { it -> "maven-metadata" in it.name }.toList() }
+            .forEach {
+                val text = it.readText()
+                println("For $it, replacing ${project.version.toString()} with $latest_commit_version")
+                it.writeText(text.replace(project.version.toString(), latest_commit_version))
+            }
     }
 }
-
-//publishing {
-//    publications {
-//        create("default", MavenPublication::class) {
-//            from(components["kotlin"])
-//            group = project.group
-//            artifactId = project.name
-////            version = project.version.toString()
-//        }
-//    }
-//}
