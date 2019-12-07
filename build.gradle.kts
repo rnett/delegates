@@ -92,13 +92,18 @@ if (do_jitpack_fix) {
             .resolve(project.group.toString().replace('.', '/'))
 
         dir.listFiles { it -> it.name in artifacts }
-            .flatMap { it.listFiles { it -> it.isDirectory }.toList() }
             .flatMap {
-                it.listFiles { it ->
-                    it.extension == "module" ||
-                            "maven-metadata" in it.name ||
-                            it.extension == "pom"
-                }.toList()
+                (it.listFiles { it -> it.isDirectory }?.toList()
+                    ?: emptyList<File>()) + it.resolve("maven-metadata-local.xml")
+            }
+            .flatMap {
+                if (it.isDirectory) {
+                    it.listFiles { it ->
+                        it.extension == "module" ||
+                                "maven-metadata" in it.name ||
+                                it.extension == "pom"
+                    }?.toList() ?: emptyList()
+                } else listOf(it)
             }
             .forEach {
                 val text = it.readText()
