@@ -82,7 +82,7 @@ kotlin {
     }
 }
 
-val do_jitpack_fix = do_jitpack_commit_fix// && "jitpack" in projectDir.path
+val do_jitpack_fix = do_jitpack_commit_fix && "jitpack" in projectDir.path
 
 if (do_jitpack_fix) {
     tasks["publishToMavenLocal"].doLast {
