@@ -93,7 +93,13 @@ if (do_jitpack_fix) {
 
         dir.listFiles { it -> it.name in artifacts }
             .flatMap { it.listFiles { it -> it.isDirectory }.toList() }
-            .flatMap { it.listFiles { it -> it.name.endsWith(".module") }.toList() }
+            .flatMap {
+                it.listFiles { it ->
+                    it.extension == "module" ||
+                            "maven-metadata" in it.name ||
+                            it.extension == "pom"
+                }.toList()
+            }
             .forEach {
                 val text = it.readText()
                 println("For $it, replacing ${project.version.toString()} with $latest_commit_version")
