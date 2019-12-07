@@ -6,8 +6,8 @@
         <dependsOnModuleNames>delegates_commonTest</dependsOnModuleNames>
         <sourceSets>
           <sourceSet>com.rnett.delegates.delegates.jvmMain</sourceSet>
-          <sourceSet>com.rnett.delegates.delegates.commonTest</sourceSet>
           <sourceSet>com.rnett.delegates.delegates.commonMain</sourceSet>
+          <sourceSet>com.rnett.delegates.delegates.commonTest</sourceSet>
         </sourceSets>
         <newMppModelJpsModuleKind>COMPILATION_AND_SOURCE_SET_HOLDER</newMppModelJpsModuleKind>
         <externalSystemTestTasks>jvmTest|delegates:jvmTest|jvm</externalSystemTestTasks>

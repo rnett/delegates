@@ -71,7 +71,7 @@ kotlin {
 
 publishing.publications.all {
 
-    //    println(projectDir)
+    println(projectDir)
     version = project.version.toString()
 }
 
