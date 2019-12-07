@@ -67,13 +67,17 @@ kotlin {
     }
 }
 
-publishing {
-    publications{
-        create("default", MavenPublication::class) {
-            from(components["kotlin"])
-            group = project.group
-            artifactId = project.name
-//            version = project.version.toString()
-        }
-    }
+publishing.publications.all {
+    version = "1.9.9"
 }
+
+//publishing {
+//    publications{
+//        create("default", MavenPublication::class) {
+//            from(components["kotlin"])
+//            group = project.group
+//            artifactId = project.name
+////            version = project.version.toString()
+//        }
+//    }
+//}
