@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.rnett.delegates"
-//version = "1.0-SNAPSHOT"
+version = "1.0-TEST"
 
 repositories {
     mavenCentral()
@@ -68,17 +68,17 @@ kotlin {
 }
 
 //publishing.publications.all {
-//    println("Version: ${project.version}, ${version}")
+//    println("Version: ${project.version}, $version")
 //    version = project.version.toString()
 //}
 
-//publishing {
-//    publications{
-//        create("default", MavenPublication::class) {
-//            from(components["kotlin"])
-//            group = project.group
-//            artifactId = project.name
-////            version = project.version.toString()
-//        }
-//    }
-//}
+publishing {
+    publications {
+        create("default", MavenPublication::class) {
+            from(components["kotlin"])
+            group = project.group
+            artifactId = project.name
+//            version = project.version.toString()
+        }
+    }
+}

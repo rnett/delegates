@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="delegates-jvm-1.0-TEST">
+    <output-path>C:\Users\jimne\Google Drive\My Stuff\delegates\build\libs</output-path>
+    <root id="archive" name="delegates-jvm-1.0-TEST.jar">
+      <element id="module-output" name="com.rnett.delegates.delegates.jvmMain" />
+    </root>
+  </artifact>
+</component>
