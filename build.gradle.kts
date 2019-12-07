@@ -1,13 +1,28 @@
+import java.net.URL
+
 plugins {
     kotlin("multiplatform") version "1.3.60"
     maven
     `maven-publish`
 }
 
-println(projectDir)
+fun getNewestCommit(gitURL: String, default: String = ""): String {
+    try {
+
+        return URL("https://api.github.com/repos/$gitURL/commits").readText()
+            .substringAfter("\"sha\":\"").substringBefore("\",").substring(0, 10)
+    } catch (e: java.lang.Exception) {
+        return default
+    }
+}
 
 group = "com.rnett.delegates"
-version = "1.0.1"
+version = "1.0-SNAPSHOT"
+
+val jitpack_version = getNewestCommit(
+    "rnett/" + project.group.toString().split(".").last(),
+    project.version.toString()
+)
 
 repositories {
     mavenCentral()
@@ -70,9 +85,10 @@ kotlin {
 }
 
 publishing.publications.all {
-
-    println(projectDir)
-    version = project.version.toString()
+    if (this is MavenPublication) {
+        if ("jitpack" in projectDir.path)
+            this.version = jitpack_version
+    }
 }
 
 //publishing {
