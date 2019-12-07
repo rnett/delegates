@@ -20,7 +20,7 @@ group = "com.rnett.delegates"
 version = "1.0-SNAPSHOT"
 val do_jitpack_commit_fix = true
 
-val latest_commit_version = getNewestCommit("rnett/" + project.group.toString().split(".").last())
+val latest_commit_version = getNewestCommit("rnett/" + project.name)
 
 repositories {
     mavenCentral()
@@ -108,7 +108,11 @@ if (do_jitpack_fix) {
             .forEach {
                 val text = it.readText()
                 println("For $it, replacing ${project.version.toString()} with $latest_commit_version")
-                it.writeText(text.replace(project.version.toString(), latest_commit_version))
+                it.writeText(
+                    text
+                        .replace(project.version.toString(), latest_commit_version)
+                        .replace(project.group.toString(), "com.github.rnett.${project.name}")
+                )
             }
     }
 }
