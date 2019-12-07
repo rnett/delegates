@@ -6,8 +6,8 @@
         <dependsOnModuleNames>delegates_commonTest</dependsOnModuleNames>
         <sourceSets>
           <sourceSet>com.rnett.delegates.delegates.jsMain</sourceSet>
-          <sourceSet>com.rnett.delegates.delegates.commonMain</sourceSet>
           <sourceSet>com.rnett.delegates.delegates.commonTest</sourceSet>
+          <sourceSet>com.rnett.delegates.delegates.commonMain</sourceSet>
         </sourceSets>
         <newMppModelJpsModuleKind>COMPILATION_AND_SOURCE_SET_HOLDER</newMppModelJpsModuleKind>
         <testOutputPath>$MODULE_DIR$/../../build/classes/kotlin/js/test/delegates_test.js</testOutputPath>
