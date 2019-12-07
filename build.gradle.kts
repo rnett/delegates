@@ -107,7 +107,7 @@ if (do_jitpack_fix) {
             }
             .forEach {
                 val text = it.readText()
-                println("For $it, replacing ${project.version.toString()} with $latest_commit_version")
+                println("Replacing ${project.version} with $latest_commit_version and ${project.group} with com.github.rnett.${project.name} in $it")
                 it.writeText(
                     text
                         .replace(project.version.toString(), latest_commit_version)
