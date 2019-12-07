@@ -4,6 +4,8 @@ plugins {
     `maven-publish`
 }
 
+println(projectDir)
+
 group = "com.rnett.delegates"
 version = "1.0.1"
 
@@ -67,10 +69,11 @@ kotlin {
     }
 }
 
-//publishing.publications.all {
-//    println("Version: ${project.version}, $version")
-//    version = project.version.toString()
-//}
+publishing.publications.all {
+
+    //    println(projectDir)
+    version = project.version.toString()
+}
 
 //publishing {
 //    publications {
