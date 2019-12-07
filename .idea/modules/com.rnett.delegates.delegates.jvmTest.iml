@@ -5,9 +5,9 @@
       <configuration version="3" platform="JVM 1.6" allPlatforms="JVM [1.6]" useProjectSettings="false" isTestModule="true" externalProjectId="delegates">
         <dependsOnModuleNames>delegates_commonTest</dependsOnModuleNames>
         <sourceSets>
-          <sourceSet>com.rnett.delegates.delegates.jvmMain</sourceSet>
           <sourceSet>com.rnett.delegates.delegates.commonTest</sourceSet>
           <sourceSet>com.rnett.delegates.delegates.commonMain</sourceSet>
+          <sourceSet>com.rnett.delegates.delegates.jvmMain</sourceSet>
         </sourceSets>
         <newMppModelJpsModuleKind>COMPILATION_AND_SOURCE_SET_HOLDER</newMppModelJpsModuleKind>
         <externalSystemTestTasks>jvmTest|delegates:jvmTest|jvm</externalSystemTestTasks>
