@@ -5,8 +5,8 @@
       <configuration version="3" platform="JavaScript " allPlatforms="JS []" useProjectSettings="false" isTestModule="true" externalProjectId="delegates">
         <dependsOnModuleNames>delegates_commonTest</dependsOnModuleNames>
         <sourceSets>
-          <sourceSet>com.rnett.delegates.delegates.commonTest</sourceSet>
           <sourceSet>com.rnett.delegates.delegates.jsMain</sourceSet>
+          <sourceSet>com.rnett.delegates.delegates.commonTest</sourceSet>
           <sourceSet>com.rnett.delegates.delegates.commonMain</sourceSet>
         </sourceSets>
         <newMppModelJpsModuleKind>COMPILATION_AND_SOURCE_SET_HOLDER</newMppModelJpsModuleKind>
